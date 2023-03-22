@@ -1,0 +1,299 @@
+*{
+    box-sizing: border-box;
+    font-family: Muli, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+    margin: 0;
+    padding: 0;
+}
+:root{
+    --brown: rgba(189, 93, 56,1);
+    --color-email: #bd5d38;
+    --color-clarence: #343a40;
+    --bg-icons: #495057;
+    --color-p: #6c757d;
+}
+body{
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding-top: 10%;
+}
+#about,
+#experience,
+#education,
+#skills,
+#interests,
+#awards{
+    display: grid;
+    gap: 40px;
+    padding-bottom: 5rem;
+    border-bottom: 1px solid #ddd;
+}
+h1,h2,h3,h4{
+    color: var(--color-clarence);
+    line-height: 1.5;
+    text-transform: uppercase;
+    font-family: "Saira Extra Condensed", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+h2{
+    font-size: 2.5rem;
+}
+h3{
+    font-size: 1.8rem;
+}
+h4{
+    color: var(--color-p);
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+}
+p{
+    color: var(--color-p);
+    line-height: 1.7;
+    font-weight: 500;
+}
+/* --------------------------------------------- */
+/*                      Navigation               */
+/* --------------------------------------------- */
+.navigation{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    margin: auto;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--brown);
+}
+.navigation .name-img a{
+    text-decoration: none;
+    color: white;
+    font-size: 1.5rem;
+}
+.navigation .name-img img,
+.navigation .menu ul{
+    display: none;
+}
+.navigation .menu .icon-nav{
+    padding: 8px 15px;
+    border: 2px solid white;
+    opacity: 0.2;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.navigation .menu .icon-nav i{
+    color: white;
+    font-size: 20px;
+}
+.navigation .menu ul a{
+    color: white;
+    opacity: 0.7;
+    text-decoration: none;
+}
+ul{
+    list-style: none;
+}
+@media screen and (min-width: 990px){
+    .navigation{
+        width: 20%;
+        height: 100%;
+        justify-content: center;
+        flex-direction: column;
+        gap: 20px;
+    }
+    .navigation .name-img .img{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .navigation .name-img a,
+    .navigation .menu .icon-nav{
+        display: none;
+    }
+    .navigation .name-img img{
+        display: block;
+        width: 80%;
+        border: 10px solid #ffffff4d;
+        border-radius: 50%;
+    }
+    .navigation .menu ul{
+        display: block;
+        text-align: center;
+        margin-top: 10px;
+    }
+    .navigation .menu ul li{
+        font-size: 18px;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+        font-weight: 600;
+    }
+    .navigation .menu ul a{
+        color: #ffffffb4;
+        
+    }
+    .navigation .menu ul a:hover{
+        color: #ffffffd7;
+
+    }
+}
+/* --------------------------------------------- */
+/*                      content                  */
+/* --------------------------------------------- */
+.content{
+    margin: auto;
+    padding: 20px;
+    display: grid;
+    gap: 5rem;
+}
+@media screen and (min-width: 990px){
+    .content{
+        margin-left: 23%;
+        margin-right: 5%;
+        display: grid;
+        gap: 5rem;
+    }
+    
+}
+/* --------------------------------------------- */
+/*                      About                    */
+/* --------------------------------------------- */
+#about{
+    padding-top: 5rem;
+}
+#about .title{
+    text-transform: uppercase;
+    font-weight: bold;
+}
+#about .title h1{
+    font-size: 40px;
+}
+#about .title h1 span{
+    color: var(--brown);
+}
+#about .title p{
+    line-height: 1.5;
+    font-weight: 600;
+}
+#about .title p a{
+    color: var(--brown);
+}
+#about .title + p{
+    color: var(--color-p);
+}
+
+#about .icons-connect{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+#about .icons-connect i{
+    color: white;
+    background-color: var(--bg-icons);
+    padding: 20px;
+    border-radius: 50%;
+    font-size: 25px;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#about .icons-connect a{
+    text-decoration: none;
+}
+#about .icons-connect a:hover i{
+    transition: 0.2s linear;
+    background-color: #bd5d38;
+}
+@media screen and (min-width: 500px){
+    #about .title h1{
+        font-size: calc(50px + 1vw);
+    }
+}
+/* --------------------------------------------- */
+/*            EXPERIENCE & Education             */
+/* --------------------------------------------- */
+.section .date{
+    margin-top: 15px;
+    color: var(--brown);
+}
+@media screen and (min-width: 768px){
+    #experience .section,
+    #education .section{
+        display: grid;
+        grid-template-columns: auto auto;
+    }
+    .section .date{
+        justify-self: flex-end;
+    }
+}
+/* --------------------------------------------- */
+/*                      SKILLS                   */
+/* --------------------------------------------- */
+#skills .section h3{
+    color: var(--color-p);
+    font-weight: normal;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+#skills .section .lang{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+#skills .section .lang i{
+    font-size: 50px;
+    color: var(--color-p);
+}
+#skills .section ul,
+#awards ul{
+    display: grid;
+    gap: 8px;
+    color: var(--color-p);
+}
+#skills .section ul i{
+    margin-right: 5px;
+}
+/* --------------------------------------------- */
+/*                   INTERESTS                   */
+/* --------------------------------------------- */
+#interests{
+    gap: 20px;
+}
+#interests h2{
+    margin-bottom: 3rem;
+}
+/* --------------------------------------------- */
+/*                      AWARDs                   */
+/* --------------------------------------------- */
+#awards{
+    border-bottom: 0;
+}
+#awards ul i{
+    color:gold;
+    position: absolute;
+    left: -1.8rem;
+    top: 4px;
+}
+#awards ul{
+    padding-left: 2rem;
+}
+#awards ul li{
+    margin-right: 8px;
+    position: relative;
+}
+
+
+@media screen and (min-width: 990px){
+    #about,
+    #experience,
+    #education,
+    #skills,
+    #interests,
+    #awards{
+        padding-top: 10rem;
+        padding-bottom: 10rem;
+    }
+    #about{
+        padding-top: 5rem;
+    }
