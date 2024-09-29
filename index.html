@@ -6,23 +6,32 @@
 </body>
 </html> -->
 
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Ajinkya Desai - Tech Background">
-    <title>Ajinkya Desai - Tech Background</title>
+    <meta name="description" content="Ajinkya Desai - Tech Background and Skills">
+    <title>Ajinkya Desai - Tech Background and Skills</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f4;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
         }
 
         .container {
@@ -30,19 +39,49 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            width: 100%;
+            width: 90%; /* Takes 90% of the screen width */
+            max-width: 1200px; /* Maximum width for larger screens */
+            height: 90%; /* Takes 90% of the screen height */
+            overflow-y: auto; /* Adds scrolling if content exceeds the screen */
         }
 
         h1 {
-            text-align: center;
             color: #333;
+            text-align: center;
         }
 
         p {
             font-size: 16px;
             color: #555;
             line-height: 1.6;
+            text-align: center;
+        }
+
+        .intro {
+            margin-bottom: 20px;
+        }
+
+        .headshot {
+            width: 150px;
+            height: 150px;
+            background-color: #ddd;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        ul {
+            text-align: left;
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            font-size: 16px;
+            color: #333;
+            margin: 8px 0;
         }
 
         .resume-link {
@@ -67,14 +106,48 @@
 
 <div class="container">
     <h1>Ajinkya Desai - Tech Background</h1>
-    <p>Hello! I’m Ajinkya Desai, a passionate technologist with a strong background in data analytics, machine learning, and product strategy. I have worked on various projects including cloud computing (GCP), web development, and data-driven decision making.</p>
-    <p>In my undergraduate studies, I gained hands-on experience with Linux systems, and during my practicum, I worked on implementing solutions using Google Cloud Platform (GCP). I have a solid understanding of modern technologies, and I continue to enhance my skills to stay updated in the fast-evolving tech industry.</p>
-    <p>Feel free to check out my resume for more details on my experience and skills!</p>
-    
+
+    <!-- Headshot Placeholder -->
+    <div class="headshot">
+        <!-- <p>Your Photo Here</p> -->
+        <img src="https://github.com/ajinkyadesai-git/ajinkyadesai-git.github.io/blob/main/AD_Photo.jpg" alt="Ajinkya Desai Headshot" style="width: 150px; height: 150px; border-radius: 50%;">
+
+    </div>
+
+    <!-- Introduction -->
+    <div class="intro">
+        <p>Hello! I’m Ajinkya Desai, a dedicated technologist with hands-on experience in cloud platforms, data analytics, and product management. Below is a brief overview of my skills and expertise:</p>
+    </div>
+
+    <!-- Skills Section -->
+    <h2>Key Skills and Expertise</h2>
+    <ul>
+        <li>Data Analytics, Data Collection, and Machine Learning</li>
+        <li>Data Visualization (Power BI, Tableau)</li>
+        <li>Product Market Analysis, Product Strategy, and Lifecycle Management</li>
+        <li>Scrum, Agile, Sprint Planning, and Stakeholder Management</li>
+        <li>Business Analytics, SaaS, Natural Language Processing</li>
+        <li>Product Marketing and Customer Value Analysis</li>
+        <li>Interpersonal Skills and Team Collaboration</li>
+    </ul>
+
+    <!-- Tools and Languages Section -->
+    <h2>Tools and Languages</h2>
+    <ul>
+        <li>Languages: Python, Javascript, Java, SQL</li>
+        <li>Data Tools: Power BI, Tableau, BigQuery, Spreadsheets, MS Excel</li>
+        <li>Development Tools: Visual Studio Code, Jupyter Notebook, GitHub</li>
+        <li>Cloud Platforms: Google Cloud Platform (GCP)</li>
+        <li>Project Management: JIRA, Asana, Smartsheet, Microsoft Teams, Slack</li>
+        <li>Productivity: MS Word, PowerPoint</li>
+    </ul>
+
+    <!-- Resume Link -->
     <div class="resume-link">
-        <a href="https://github.com/ajinkyadesai-git/ajinkyadesai-git.github.io/blob/main/Ajinkya%20Desai%20Resume.pdf" download>Check My Resume</a>
+        <a href="https://github.com/ajinkyadesai-git/ajinkyadesai-git.github.io/blob/main/Ajinkya%20Desai%20Resume.pdf" download>Download My Resume</a>
     </div>
 </div>
 
 </body>
 </html>
+
