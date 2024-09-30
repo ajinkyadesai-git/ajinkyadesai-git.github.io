@@ -3,49 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Ajinkya Desai's Personal Profile">
+    <meta name="description" content="Ajinkya Desai's Interactive Profile">
     <title>Ajinkya Desai</title>
-    <!-- Link to external CSS -->
     <link rel="stylesheet" href="styles.css">
+    <!-- Adding Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#education">Education</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
 
-<div class="container">
-    <!-- Left Column (Headshot) -->
-    <div class="left-column">
-        <img src="AD_Photo.jpg" alt="Ajinkya Desai Headshot">
-    </div>
-
-    <!-- Right Column (Content) -->
-    <div class="right-column">
-        <h1>Ajinkya Desai</h1>
-        <p>Email: andesai@scu.edu</p>
-        <p><a href="https://www.linkedin.com/in/ajinkya-desai/" target="_blank">LinkedIn Profile</a></p>
-        <div class="resume-link">
-            <a href="https://drive.google.com/file/d/1QPjUbTVu2WFfC4spyOL3p_h73JMFMAeq/view" download>Download My CV</a>
-        </div>
+    <!-- Main Container -->
+    <div class="container">
+        <!-- About Section -->
+        <section id="about" class="fade-in-section">
+            <div class="left-column">
+                <img src="AD_Photo.jpg" alt="Ajinkya Desai Headshot">
+            </div>
+            <div class="right-column">
+                <h1>Ajinkya Desai</h1>
+                <p>Hello! I’m Ajinkya Desai, a dedicated technologist with hands-on experience in cloud platforms, data analytics, and product management.</p>
+                <div class="resume-link">
+                    <a href="https://drive.google.com/file/d/1QPjUbTVu2WFfC4spyOL3p_h73JMFMAeq/view" download>Download My CV</a>
+                </div>
+            </div>
+        </section>
 
         <!-- Education Section -->
-        <div class="section education">
+        <section id="education" class="fade-in-section">
             <h2>Education</h2>
-            <h3>Santa Clara University</h3>
-            <p>MS in Management Information Systems (Sep 2023 - June 2025)</p>
-            <p>Relevant Courses: Data Analytics (Python), DBMS (SQL), Big Data Modeling & Analytics (Spark), Object-Oriented Programming (Java), NLP</p>
-
-            
-        </div>
+            <div class="education-details">
+                <h3>Santa Clara University</h3>
+                <p>MS in Management Information Systems (Sep 2023 - June 2025)</p>
+                <p>Relevant Courses: Data Analytics (Python), DBMS (SQL), Big Data Modeling & Analytics (Spark), Object-Oriented Programming (Java), NLP</p>
+                
+            </div>
+        </section>
 
         <!-- Skills Section -->
-        <div class="section skills">
+        <section id="skills" class="fade-in-section">
             <h2>Skills</h2>
             <ul>
                 <li>Tools: SQL, Python (NumPy, Pandas, Seaborn), Spark, Tableau, MS Excel, GIT</li>
                 <li>Data Science: Classification, Regression, Decision Trees, Clustering (K-means, KNN), A/B testing, t-test, chi-sq, ANOVA</li>
-                <li>Product management: Business Case, Market Research, User Requirements, Go-To-Market Gtm, Product Lifecycle Management, Product Vision, Problem-Solving, Product Management, Product Briefs, Spring, Salesforce, Technical Writing, Computer Science, Crm, Communication Skills, Strategic Planning, Business Analysis, Product Marketing, User Research, Competitive Analysis, Business Models </li>
             </ul>
-        </div>
-    </div>
-</div>
+        </section>
 
+        <!-- Contact Section -->
+        <section id="contact" class="fade-in-section">
+            <h2>Contact</h2>
+            <p>Email: ajinkya.desai@example.com</p>
+            <p><a href="https://www.linkedin.com/in/ajinkya-desai/" target="_blank">LinkedIn Profile</a></p>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
