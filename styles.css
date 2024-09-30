@@ -1,3 +1,4 @@
+/* Base styles for body */
 * {
     margin: 0;
     padding: 0;
@@ -10,6 +11,7 @@ body {
     padding: 20px;
 }
 
+/* Main container */
 .container {
     max-width: 1000px;
     margin: 0 auto;
@@ -40,6 +42,7 @@ body {
     padding-left: 40px;
 }
 
+/* Styling for headers and text */
 h1 {
     color: #007BFF;
     font-size: 36px;
@@ -59,12 +62,14 @@ p {
     text-decoration: none;
     border-radius: 5px;
     display: inline-block;
+    margin-bottom: 30px;
 }
 
 .resume-link a:hover {
     background-color: #0056b3;
 }
 
+/* Section styles */
 .section {
     margin-bottom: 30px;
 }
@@ -87,10 +92,6 @@ ul li {
 }
 
 /* Education Section */
-.education {
-    margin-bottom: 30px;
-}
-
 .education h3 {
     color: #333;
     font-size: 18px;
