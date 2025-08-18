@@ -331,69 +331,47 @@ document.addEventListener('DOMContentLoaded', function () {
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-  const menu   = document.querySelector('.menu');
-  const burger = document.querySelector('.icon-nav');
-  const panel  = menu ? menu.querySelector('ul') : null;
-  const links  = Array.from(document.querySelectorAll('.menu a[href^="#"]'));
+  const menu = document.querySelector('.menu');
+  const burger = document.querySelector('.icon-nav');          // the ☰ button
+  const navLinks = Array.from(document.querySelectorAll('.menu a[href^="#"]'));
 
-  /* create overlay once */
-  let overlay = document.querySelector('.menu-overlay');
-  if (!overlay){
-    overlay = document.createElement('div');
-    overlay.className = 'menu-overlay';
-    document.body.appendChild(overlay);
+  // Open/close the menu on mobile
+  if (burger){
+    burger.addEventListener('click', () => {
+      menu.classList.toggle('is-open');
+    });
   }
 
-  const burgerIcon = burger ? burger.querySelector('i') : null;
-
-  function openMenu(){
-    menu.classList.add('is-open');
-    overlay.classList.add('show');
-    document.body.style.overflow = 'hidden';
-    if (burger) burger.setAttribute('aria-expanded','true');
-    if (burgerIcon){ burgerIcon.classList.remove('fa-bars'); burgerIcon.classList.add('fa-xmark'); }
+  // Click a link: smooth scroll, set active, close the menu on mobile
+  function setActiveByHash(hash){
+    navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === hash));
   }
-  function closeMenu(){
-    menu.classList.remove('is-open');
-    overlay.classList.remove('show');
-    document.body.style.overflow = '';
-    if (burger) burger.setAttribute('aria-expanded','false');
-    if (burgerIcon){ burgerIcon.classList.remove('fa-xmark'); burgerIcon.classList.add('fa-bars'); }
-  }
-  function toggleMenu(){ menu.classList.contains('is-open') ? closeMenu() : openMenu(); }
 
-  if (burger) burger.addEventListener('click', toggleMenu);
-  overlay.addEventListener('click', closeMenu);
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
-
-  /* smooth-scroll, set active, and close the panel on tap */
-  function setActive(hash){
-    links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === hash));
-  }
-  links.forEach(a => {
+  navLinks.forEach(a => {
     a.addEventListener('click', (e) => {
-      e.preventDefault();
+      e.preventDefault();                        // ensure consistent behavior on mobile
       const id = a.getAttribute('href');
       const target = document.querySelector(id);
       if (target){
-        target.scrollIntoView({ behavior:'smooth', block:'start' });
-        history.replaceState(null,null,id);
-        setActive(id);
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        history.replaceState(null, null, id);
+        setActiveByHash(id);
       }
-      closeMenu();
-    }, { passive:false });
+      menu.classList.remove('is-open');          // close after selecting
+    }, { passive: false });
   });
 
-  /* keep active state in sync while scrolling */
-  const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
-  const io = new IntersectionObserver(entries => {
-    const vis = entries.filter(e => e.isIntersecting)
-                       .sort((a,b)=> b.intersectionRatio - a.intersectionRatio)[0];
-    if (vis) setActive('#' + vis.target.id);
-  }, { rootMargin:'0px 0px -60% 0px', threshold:[0.25,0.6] });
-  sections.forEach(s => io.observe(s));
+  // (Optional) Keep highlight in sync while scrolling
+  const sections = navLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  const observer = new IntersectionObserver(entries => {
+    const visible = entries.filter(e => e.isIntersecting)
+                           .sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
+    if (visible) setActiveByHash('#' + visible.target.id);
+  }, { rootMargin: '0px 0px -60% 0px', threshold: [0.25, 0.6] });
+  sections.forEach(sec => observer.observe(sec));
 });
 </script>
+
 
     
 </body>
