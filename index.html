@@ -21,25 +21,27 @@
     .menu a.active{color:var(--accent);font-weight:800;background:var(--active-bg)}
     .menu a.active::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:8px;vertical-align:middle}
     html{scroll-behavior:smooth}
-    /* ACTIVE = keep the background for the current section */
-    .menu a.active{
-      color: #fff;
-      font-weight: 800;
-      background: rgba(255,255,255,.28);
-    }
-    /* HOVER = text-only highlight (no bg) for non-active links */
+    /* WHITE-ONLY HIGHLIGHT — put this LAST in your CSS */
+
+    /* Hover/focus: white text, no background */
     .menu a:hover,
     .menu a:focus-visible{
-      color: #fff;
-      background: transparent !important;
+      color:#fff;
+      background:transparent !important;
       transform: translateX(2px);
-      outline: none;
+      outline:none;
     }
     
-    /* If you hover the active item, keep its bg (prevents hover from clearing it) */
-    .menu a.active:hover{
-      background: rgba(255,255,255,.28);
-      color: #fff;
+    /* Active/current section: white text, no background */
+    .menu a.active{
+      color:#fff;
+      font-weight:800;           /* keep the bold if you like */
+      background:transparent !important;
+    }
+    
+    /* Kill the dot/badge that was showing on active */
+    .menu a.active::before{
+      content:none !important;
     }
 
     </style>
