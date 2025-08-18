@@ -81,52 +81,63 @@
       body{ overflow-y: auto; }
     }
 
-    /* ===== Keep name fixed; only menu opens (mobile) ===== */
+    /* === Mobile slide-in menu like StartBootstrap === */
     @media (max-width: 768px){
-      :root { --nav-h: 64px; }          /* header height */
+      :root { --nav-h: 64px; }
     
-      /* Top bar stays fixed and does NOT grow when menu opens */
+      /* Top bar stays fixed; name never moves */
       .navigation{
-        position: fixed;
-        top: 0; left: 0; right: 0;
+        position: fixed; top:0; left:0; right:0;
         height: var(--nav-h);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 8px 16px;
-        z-index: 1000;
+        display:flex; align-items:center; justify-content:space-between;
+        padding: 8px 16px; z-index: 1000;
       }
+      .name-img .img{ display:none; }         /* optional: hide avatar on tiny screens */
     
-      /* (Optional) hide the circular avatar on tiny screens */
-      .name-img .img{ display: none; }
+      /* Burger */
+      .icon-nav{ cursor:pointer; position:relative; z-index:1002; }
     
-      /* Menu button area */
-      .menu{ position: relative; }
-      .icon-nav{ position: relative; z-index: 1002; cursor: pointer; }
-    
-      /* The menu list becomes an overlay panel, so it won't push the name */
+      /* Slide-in panel (repurposes your existing UL) */
+      .menu{ position:relative; }
       .menu ul{
-        position: absolute;
-        top: calc(var(--nav-h) - 8px);
-        right: 0;
-        width: 220px;                /* adjust to taste */
-        display: none;               /* hidden by default */
-        padding: 12px;
-        border-radius: 10px;
-        background: rgba(0,0,0,0.08); /* subtle panel; remove if you want */
+        position: fixed; top: var(--nav-h); right: 12px; bottom: 12px;
+        width: 78vw; max-width: 320px;
+        display:flex; flex-direction:column; gap: 10px;
+        padding: 16px 18px;
+        background: rgba(0,0,0,0.08);
+        border-radius: 12px;
         backdrop-filter: blur(2px);
+        transform: translateX(110%);          /* hidden by default */
+        opacity: 0;
+        transition: transform .28s ease, opacity .2s ease;
         z-index: 1001;
       }
-      .menu.is-open ul{ display: block; }
+      .menu.is-open ul{
+        transform: translateX(0);
+        opacity: 1;
+      }
+      .menu ul li{ list-style:none; }
+      .menu ul li a{ display:block; text-align:right; }
     
-      /* Make sure links are tidy and right-aligned like your screenshot */
-      .menu ul li{ list-style: none; }
-      .menu ul li a{ display:block; text-align: right; }
-    
-      /* Push page content below the fixed bar & fix anchor jumps */
+      /* Page content sits below fixed bar & anchors aren't hidden */
       .content{ margin-top: var(--nav-h); }
       [id]{ scroll-margin-top: var(--nav-h); }
     }
+    
+    /* Dimmed overlay behind the panel */
+    .menu-overlay{
+      position: fixed; inset: 0; background: rgba(0,0,0,.25);
+      opacity: 0; visibility: hidden; transition: opacity .25s ease;
+      z-index: 1000;
+    }
+    .menu-overlay.show{ opacity: 1; visibility: visible; }
+    
+    /* Your “white-only” highlight */
+    .menu a:hover,
+    .menu a:focus-visible{ color:#fff; background:transparent !important; transform:translateX(2px); outline:none; }
+    .menu a.active{ color:#fff; font-weight:800; background:transparent !important; }
+    .menu a.active::before{ content:none !important; }
+
   
     </style>
 </head>
@@ -385,6 +396,73 @@ document.addEventListener('DOMContentLoaded', function () {
   sections.forEach(sec => observer.observe(sec));
 });
 </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const menu   = document.querySelector('.menu');
+  const burger = document.querySelector('.icon-nav');
+  const panel  = menu ? menu.querySelector('ul') : null;
+  const links  = Array.from(document.querySelectorAll('.menu a[href^="#"]'));
+
+  /* create overlay once */
+  let overlay = document.querySelector('.menu-overlay');
+  if (!overlay){
+    overlay = document.createElement('div');
+    overlay.className = 'menu-overlay';
+    document.body.appendChild(overlay);
+  }
+
+  const burgerIcon = burger ? burger.querySelector('i') : null;
+
+  function openMenu(){
+    menu.classList.add('is-open');
+    overlay.classList.add('show');
+    document.body.style.overflow = 'hidden';
+    if (burger) burger.setAttribute('aria-expanded','true');
+    if (burgerIcon){ burgerIcon.classList.remove('fa-bars'); burgerIcon.classList.add('fa-xmark'); }
+  }
+  function closeMenu(){
+    menu.classList.remove('is-open');
+    overlay.classList.remove('show');
+    document.body.style.overflow = '';
+    if (burger) burger.setAttribute('aria-expanded','false');
+    if (burgerIcon){ burgerIcon.classList.remove('fa-xmark'); burgerIcon.classList.add('fa-bars'); }
+  }
+  function toggleMenu(){ menu.classList.contains('is-open') ? closeMenu() : openMenu(); }
+
+  if (burger) burger.addEventListener('click', toggleMenu);
+  overlay.addEventListener('click', closeMenu);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+
+  /* smooth-scroll, set active, and close the panel on tap */
+  function setActive(hash){
+    links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === hash));
+  }
+  links.forEach(a => {
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      const id = a.getAttribute('href');
+      const target = document.querySelector(id);
+      if (target){
+        target.scrollIntoView({ behavior:'smooth', block:'start' });
+        history.replaceState(null,null,id);
+        setActive(id);
+      }
+      closeMenu();
+    }, { passive:false });
+  });
+
+  /* keep active state in sync while scrolling */
+  const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  const io = new IntersectionObserver(entries => {
+    const vis = entries.filter(e => e.isIntersecting)
+                       .sort((a,b)=> b.intersectionRatio - a.intersectionRatio)[0];
+    if (vis) setActive('#' + vis.target.id);
+  }, { rootMargin:'0px 0px -60% 0px', threshold:[0.25,0.6] });
+  sections.forEach(s => io.observe(s));
+});
+</script>
+
     
 </body>
 </html>
