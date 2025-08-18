@@ -86,23 +86,28 @@
       .icon-nav{ cursor:pointer; position:relative; z-index:1002; -webkit-tap-highlight-color:transparent; }
     
       /* turn existing UL into a slide-in drawer */
-      .navigation .menu ul{
-        position: fixed; top: var(--nav-h); right: 12px; bottom: 12px;
-        width: 78vw; max-width: 320px;
-        display:flex; flex-direction:column; gap:12px;
-        padding:16px 18px;
-        background: rgba(0,0,0,.08);
-        border-radius:12px;
-        backdrop-filter: blur(2px);
-        transform: translateX(110%);      /* hidden */
-        opacity: 0; pointer-events: none;
-        transition: transform .28s ease, opacity .2s ease;
-        z-index:1001;
-      }
-      .navigation .menu.is-open ul{
-        transform: translateX(0);
-        opacity: 1; pointer-events: auto;
-      }
+        .navigation .menu ul{
+          position: fixed; top: var(--nav-h); right: 12px; bottom: 12px;
+          width: 78vw; max-width: 320px;
+          display: flex !important;            /* <-- force visible layout */
+          flex-direction: column; gap: 12px;
+          padding: 16px 18px;
+          background: rgba(0,0,0,.08);
+          border-radius: 12px;
+          backdrop-filter: blur(2px);
+          transform: translateX(110%);         /* hidden off-canvas */
+          opacity: 0;
+          pointer-events: none;
+          transition: transform .28s ease, opacity .2s ease;
+          z-index: 1001;
+        }
+        .navigation .menu.is-open ul{
+          transform: translateX(0);
+          opacity: 1;
+          pointer-events: auto;
+          display: flex !important;            /* <-- ensure shown even if other CSS says none */
+        }
+
     
       .navigation .menu ul li{ list-style:none; }
       .navigation .menu ul li a{ display:block; text-align:left; }
@@ -306,7 +311,7 @@
 
     </div>
     <!-- other scripts, if any -->
-<script>
+<!-- <script>
 document.addEventListener('DOMContentLoaded', function () {
   const navLinks = Array.from(document.querySelectorAll('.menu a[href^="#"]'));
 
@@ -334,7 +339,8 @@ document.addEventListener('DOMContentLoaded', function () {
   if (location.hash) setActiveByHash(location.hash);
 });
 </script>
-
+ -->
+<!--     
 <script>
 (function(){
   const menu   = document.querySelector('.menu');
@@ -379,6 +385,59 @@ document.addEventListener('DOMContentLoaded', function () {
   if (location.hash) setActive(location.hash);
 })();
 </script>
+ -->
+
+        <script>
+    (function(){
+      const menu   = document.querySelector('.menu');
+      const burger = document.querySelector('.icon-nav');
+      const links  = [...document.querySelectorAll('.menu a[href^="#"]')];
+      if (!menu || !burger) return;
+    
+      function toggleMenu(e){
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        menu.classList.toggle('is-open');
+      }
+      ['click','touchend','pointerup'].forEach(evt =>
+        burger.addEventListener(evt, toggleMenu, {passive:false})
+      );
+    
+      function setActive(hash){
+        links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === hash));
+      }
+      function onLinkTap(a){ 
+        return function(e){
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          e.stopPropagation();
+          const id = a.getAttribute('href');
+          const target = document.querySelector(id);
+          if (target){
+            target.scrollIntoView({ behavior:'smooth', block:'start' });
+            history.replaceState(null, null, id);
+            setActive(id);
+          }
+          menu.classList.remove('is-open');
+        };
+      }
+      links.forEach(a => ['click','touchend','pointerup']
+        .forEach(evt => a.addEventListener(evt, onLinkTap(a), {passive:false}))
+      );
+    
+      // Keep active highlight while scrolling
+      const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+      const io = new IntersectionObserver(entries => {
+        const v = entries.filter(e => e.isIntersecting)
+                         .sort((a,b)=> b.intersectionRatio - a.intersectionRatio)[0];
+        if (v) setActive('#' + v.target.id);
+      }, { rootMargin:'0px 0px -60% 0px', threshold:[0.25,0.6] });
+      sections.forEach(s => io.observe(s));
+    
+      if (location.hash) setActive(location.hash);
+    })();
+    </script>
 
 
 
