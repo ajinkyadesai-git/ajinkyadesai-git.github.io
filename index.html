@@ -82,13 +82,63 @@
     @media (max-width: 768px){
       body{ overflow-y: auto; }
     }
-    
 
-
-   
-
-  
     </style>
+
+    <style>
+    :root { --nav-h: 64px; }
+    
+    /* --- Mobile drawer (no overlay) --- */
+    @media (max-width: 768px){
+      /* keep top bar fixed; name never moves */
+      .navigation{
+        position: fixed; top:0; left:0; right:0;
+        height: var(--nav-h);
+        display:flex; align-items:center; justify-content:space-between;
+        padding:10px 16px; z-index:1000;
+      }
+    
+      /* content sits below bar; anchors not hidden */
+      .content{ margin-top: var(--nav-h); }
+      [id]{ scroll-margin-top: var(--nav-h); }
+    
+      .menu{ position:relative; }
+      .icon-nav{ cursor:pointer; position:relative; z-index:1002; -webkit-tap-highlight-color:transparent; }
+    
+      /* turn existing UL into a slide-in drawer */
+      .navigation .menu ul{
+        position: fixed; top: var(--nav-h); right: 12px; bottom: 12px;
+        width: 78vw; max-width: 320px;
+        display:flex; flex-direction:column; gap:12px;
+        padding:16px 18px;
+        background: rgba(0,0,0,.08);
+        border-radius:12px;
+        backdrop-filter: blur(2px);
+        transform: translateX(110%);      /* hidden */
+        opacity: 0; pointer-events: none;
+        transition: transform .28s ease, opacity .2s ease;
+        z-index:1001;
+      }
+      .navigation .menu.is-open ul{
+        transform: translateX(0);
+        opacity: 1; pointer-events: auto;
+      }
+    
+      .navigation .menu ul li{ list-style:none; }
+      .navigation .menu ul li a{ display:block; text-align:left; }
+    }
+    
+    /* hide any overlay you may have added earlier */
+    .menu-overlay{ display:none !important; }
+    
+    /* white-only highlight */
+    .menu a:hover, .menu a:focus-visible{ color:#fff; background:transparent !important; transform:translateX(2px); outline:none; }
+    .menu a.active{ color:#fff; font-weight:800; background:transparent !important; }
+    .menu a.active::before{ content:none !important; }
+    
+    html{ scroll-behavior: smooth; }
+    </style>
+
 
        
 </head>
@@ -390,6 +440,52 @@ document.addEventListener('DOMContentLoaded', function () {
   sections.forEach(sec => observer.observe(sec));
 });
 </script>
+
+<script>
+(function(){
+  const menu   = document.querySelector('.menu');
+  const burger = document.querySelector('.icon-nav');
+  const links  = [...document.querySelectorAll('.menu a[href^="#"]')];
+  if (!menu || !burger) return;
+
+  function setActive(hash){
+    links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === hash));
+  }
+
+  // control burger (capture phase beats older handlers)
+  burger.addEventListener('click', function(e){
+    e.preventDefault(); e.stopImmediatePropagation(); e.stopPropagation();
+    menu.classList.toggle('is-open');
+  }, true);
+
+  // smooth scroll + close drawer on link tap
+  links.forEach(a => {
+    a.addEventListener('click', function(e){
+      e.preventDefault(); e.stopImmediatePropagation(); e.stopPropagation();
+      const id = a.getAttribute('href');
+      const target = document.querySelector(id);
+      if (target){
+        target.scrollIntoView({ behavior:'smooth', block:'start' });
+        history.replaceState(null, null, id);
+        setActive(id);
+      }
+      menu.classList.remove('is-open');
+    }, true);
+  });
+
+  // keep active state while scrolling
+  const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  const io = new IntersectionObserver(entries => {
+    const v = entries.filter(e => e.isIntersecting)
+                     .sort((a,b)=> b.intersectionRatio - a.intersectionRatio)[0];
+    if (v) setActive('#' + v.target.id);
+  }, { rootMargin:'0px 0px -60% 0px', threshold:[0.25,0.6] });
+  sections.forEach(s => io.observe(s));
+
+  if (location.hash) setActive(location.hash);
+})();
+</script>
+
 
 
 
