@@ -54,6 +54,32 @@
     }
     .navigation .menu ul li a.active::before{ content:none !important; }
 
+    /* ===== Mobile nav fix ===== */
+    @media (max-width: 768px) {
+      /* Keep the top bar fixed but not full-height */
+      .navigation{
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        height: auto;           /* was 100vh in many templates */
+        padding: 12px 16px;
+        z-index: 1000;
+      }
+    
+      /* Hide the list until the burger is tapped */
+      .menu ul{ display: none; margin-top: 12px; }
+      .menu.is-open ul{ display: block; }
+    
+      /* Push page content below the fixed bar */
+      .content{ margin-top: 90px; }
+    
+      /* So anchored sections aren’t hidden under the fixed bar */
+      [id]{ scroll-margin-top: 90px; }
+    }
+    
+    /* Optional: always allow vertical scrolling on mobile */
+    @media (max-width: 768px){
+      body{ overflow-y: auto; }
+    }
 
     </style>
 </head>
@@ -269,6 +295,50 @@ document.addEventListener('DOMContentLoaded', function () {
   if (location.hash) setActiveByHash(location.hash);
 });
 </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const menu = document.querySelector('.menu');
+  const burger = document.querySelector('.icon-nav');          // the ☰ button
+  const navLinks = Array.from(document.querySelectorAll('.menu a[href^="#"]'));
+
+  // Open/close the menu on mobile
+  if (burger){
+    burger.addEventListener('click', () => {
+      menu.classList.toggle('is-open');
+    });
+  }
+
+  // Click a link: smooth scroll, set active, close the menu on mobile
+  function setActiveByHash(hash){
+    navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === hash));
+  }
+
+  navLinks.forEach(a => {
+    a.addEventListener('click', (e) => {
+      e.preventDefault();                        // ensure consistent behavior on mobile
+      const id = a.getAttribute('href');
+      const target = document.querySelector(id);
+      if (target){
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        history.replaceState(null, null, id);
+        setActiveByHash(id);
+      }
+      menu.classList.remove('is-open');          // close after selecting
+    }, { passive: false });
+  });
+
+  // (Optional) Keep highlight in sync while scrolling
+  const sections = navLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  const observer = new IntersectionObserver(entries => {
+    const visible = entries.filter(e => e.isIntersecting)
+                           .sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
+    if (visible) setActiveByHash('#' + visible.target.id);
+  }, { rootMargin: '0px 0px -60% 0px', threshold: [0.25, 0.6] });
+  sections.forEach(sec => observer.observe(sec));
+});
+</script>
+    
 </body>
 </html>
 
