@@ -400,9 +400,12 @@ document.addEventListener('DOMContentLoaded', function () {
         e.stopPropagation();
         menu.classList.toggle('is-open');
       }
-      ['click','touchend','pointerup'].forEach(evt =>
-        burger.addEventListener(evt, toggleMenu, {passive:false})
-      );
+      // ['click','touchend','pointerup'].forEach(evt =>
+      //   burger.addEventListener(evt, toggleMenu, {passive:false})
+      // );
+        const tapEvt = window.PointerEvent ? 'pointerup' : 'click';
+        burger.addEventListener(tapEvt, toggleMenu, {passive:false});
+
     
       function setActive(hash){
         links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === hash));
@@ -422,9 +425,12 @@ document.addEventListener('DOMContentLoaded', function () {
           menu.classList.remove('is-open');
         };
       }
-      links.forEach(a => ['click','touchend','pointerup']
-        .forEach(evt => a.addEventListener(evt, onLinkTap(a), {passive:false}))
-      );
+      // links.forEach(a => ['click','touchend','pointerup']
+      //   .forEach(evt => a.addEventListener(evt, onLinkTap(a), {passive:false}))
+      // );
+        const linkEvt = window.PointerEvent ? 'pointerup' : 'click';
+        links.forEach(a => a.addEventListener(linkEvt, onLinkTap(a), {passive:false}));
+
     
       // Keep active highlight while scrolling
       const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
