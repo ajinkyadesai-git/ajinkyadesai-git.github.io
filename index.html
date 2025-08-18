@@ -81,62 +81,7 @@
       body{ overflow-y: auto; }
     }
 
-    /* === Mobile slide-in menu like StartBootstrap === */
-    @media (max-width: 768px){
-      :root { --nav-h: 64px; }
-    
-      /* Top bar stays fixed; name never moves */
-      .navigation{
-        position: fixed; top:0; left:0; right:0;
-        height: var(--nav-h);
-        display:flex; align-items:center; justify-content:space-between;
-        padding: 8px 16px; z-index: 1000;
-      }
-      .name-img .img{ display:none; }         /* optional: hide avatar on tiny screens */
-    
-      /* Burger */
-      .icon-nav{ cursor:pointer; position:relative; z-index:1002; }
-    
-      /* Slide-in panel (repurposes your existing UL) */
-      .menu{ position:relative; }
-      .menu ul{
-        position: fixed; top: var(--nav-h); right: 12px; bottom: 12px;
-        width: 78vw; max-width: 320px;
-        display:flex; flex-direction:column; gap: 10px;
-        padding: 16px 18px;
-        background: rgba(0,0,0,0.08);
-        border-radius: 12px;
-        backdrop-filter: blur(2px);
-        transform: translateX(110%);          /* hidden by default */
-        opacity: 0;
-        transition: transform .28s ease, opacity .2s ease;
-        z-index: 1001;
-      }
-      .menu.is-open ul{
-        transform: translateX(0);
-        opacity: 1;
-      }
-      .menu ul li{ list-style:none; }
-      .menu ul li a{ display:block; text-align:right; }
-    
-      /* Page content sits below fixed bar & anchors aren't hidden */
-      .content{ margin-top: var(--nav-h); }
-      [id]{ scroll-margin-top: var(--nav-h); }
-    }
-    
-    /* Dimmed overlay behind the panel */
-    .menu-overlay{
-      position: fixed; inset: 0; background: rgba(0,0,0,.25);
-      opacity: 0; visibility: hidden; transition: opacity .25s ease;
-      z-index: 1000;
-    }
-    .menu-overlay.show{ opacity: 1; visibility: visible; }
-    
-    /* Your “white-only” highlight */
-    .menu a:hover,
-    .menu a:focus-visible{ color:#fff; background:transparent !important; transform:translateX(2px); outline:none; }
-    .menu a.active{ color:#fff; font-weight:800; background:transparent !important; }
-    .menu a.active::before{ content:none !important; }
+   
 
   
     </style>
