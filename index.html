@@ -21,7 +21,28 @@
     .menu a.active{color:var(--accent);font-weight:800;background:var(--active-bg)}
     .menu a.active::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:8px;vertical-align:middle}
     html{scroll-behavior:smooth}
-</style>
+    /* ACTIVE = keep the background for the current section */
+    .menu a.active{
+      color: #fff;
+      font-weight: 800;
+      background: rgba(255,255,255,.28);
+    }
+    /* HOVER = text-only highlight (no bg) for non-active links */
+    .menu a:hover,
+    .menu a:focus-visible{
+      color: #fff;
+      background: transparent;
+      transform: translateX(2px);
+      outline: none;
+    }
+    
+    /* If you hover the active item, keep its bg (prevents hover from clearing it) */
+    .menu a.active:hover{
+      background: rgba(255,255,255,.28);
+      color: #fff;
+    }
+
+    </style>
 </head>
 <body>
     <!-- -------------------------------- -->
