@@ -38,6 +38,23 @@
       font-weight:800;           /* keep the bold if you like */
       background:transparent !important;
     }
+
+    /* Kill the dot/badge that was showing on active */
+    .menu a.active::before{
+     content:none !important;
+    }
+
+    .navigation .menu ul li a:hover,
+    .navigation .menu ul li a:focus-visible{ 
+      color:#fff; 
+      background:transparent !important; 
+    }
+    .navigation .menu ul li a.active{
+      color:#fff; 
+      background:transparent !important; 
+    }
+    .navigation .menu ul li a.active::before{ content:none !important; }
+
     
     /* ===== Mobile nav fix ===== */
     @media (max-width: 768px) {
