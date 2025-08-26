@@ -85,31 +85,38 @@
       .menu{ position:relative; }
       .icon-nav{ cursor:pointer; position:relative; z-index:1002; -webkit-tap-highlight-color:transparent; }
     
-      /* turn existing UL into a drop menu under the header */
-      .navigation .menu ul{
-        position: absolute;
-        top: calc(var(--nav-h) - 4px);
-        left: 16px;
-        right: 16px;
-        margin: 0;
-        padding: 8px 0;
-        list-style: none;
-        background: transparent;             /* same look as the screenshot */
-        display: block;                      /* keep flow for max-height animation */
-        max-height: 0;                       /* hidden by default */
-        overflow: hidden;
-        transform: translateY(-6px);
-        opacity: 0;
-        pointer-events: none;
-        transition: max-height .25s ease, transform .2s ease, opacity .2s ease;
-        z-index: 1001;
-        }
-      .navigation .menu.is-open ul{
-        max-height: 300px;                   /* enough to show all links */
-        transform: translateY(0);
-        opacity: 1;
-        pointer-events: auto;
-        }
+      /* drop menu under the header */
+    .navigation .menu ul{
+      position: absolute;
+      top: calc(var(--nav-h) - 4px);
+      left: 16px;
+      right: 16px;
+      margin: 0;
+      padding: 8px 0;
+      list-style: none;
+      background: transparent;
+      display: block !important;       /* force layout so we can animate height */
+      max-height: 0;                   /* hidden by default */
+      overflow: hidden;
+      transform: translateY(-6px);
+      opacity: 0;
+      pointer-events: none;
+      transition: max-height .25s ease, transform .2s ease, opacity .2s ease;
+      z-index: 1001;
+    }
+    .navigation .menu.is-open ul{
+      max-height: 320px;               /* enough to reveal all items */
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+      display: block !important;
+    }
+    @media (max-width: 768px){
+      .navigation{                     /* ensure the list can overflow the bar */
+        overflow: visible !important;
+    }
+   `}
+
 
     
       .navigation .menu ul li{ list-style:none; }
@@ -313,37 +320,7 @@
         </div>
 
     </div>
-    <!-- other scripts, if any -->
-<!-- <script>
-document.addEventListener('DOMContentLoaded', function () {
-  const navLinks = Array.from(document.querySelectorAll('.menu a[href^="#"]'));
-
-  function setActiveByHash(hash){
-    navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === hash));
-  }
-
-  navLinks.forEach(a => {
-    a.addEventListener('click', () => setActiveByHash(a.getAttribute('href')));
-  });
-
-  const sections = navLinks
-    .map(a => document.querySelector(a.getAttribute('href')))
-    .filter(Boolean);
-
-  const observer = new IntersectionObserver(entries => {
-    const visible = entries
-      .filter(e => e.isIntersecting)
-      .sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
-    if (visible) setActiveByHash('#' + visible.target.id);
-  }, { rootMargin: '0px 0px -60% 0px', threshold: [0.25, 0.6] });
-
-  sections.forEach(sec => observer.observe(sec));
-
-  if (location.hash) setActiveByHash(location.hash);
-});
-</script>
- -->
-<!--     
+ 
 <script>
 (function(){
   const menu   = document.querySelector('.menu');
@@ -351,20 +328,23 @@ document.addEventListener('DOMContentLoaded', function () {
   const links  = [...document.querySelectorAll('.menu a[href^="#"]')];
   if (!menu || !burger) return;
 
-  // Toggle drawer
-  burger.addEventListener('click', function(e){
+  function toggleMenu(e){
     e.preventDefault();
+    e.stopImmediatePropagation();
     e.stopPropagation();
     menu.classList.toggle('is-open');
-  });
+  }
+  // CHANGE: single 'click' listener
+  burger.addEventListener('click', toggleMenu, {passive:false});
 
-  // Smooth scroll + close drawer + set active
   function setActive(hash){
     links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === hash));
   }
-  links.forEach(a => {
-    a.addEventListener('click', function(e){
+  function onLinkTap(a){
+    return function(e){
       e.preventDefault();
+      e.stopImmediatePropagation();
+      e.stopPropagation();
       const id = a.getAttribute('href');
       const target = document.querySelector(id);
       if (target){
@@ -373,10 +353,11 @@ document.addEventListener('DOMContentLoaded', function () {
         setActive(id);
       }
       menu.classList.remove('is-open');
-    });
-  });
+    };
+  }
+  // CHANGE: single 'click' listener
+  links.forEach(a => a.addEventListener('click', onLinkTap(a), {passive:false}));
 
-  // Keep active state in sync while scrolling
   const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
   const io = new IntersectionObserver(entries => {
     const v = entries.filter(e => e.isIntersecting)
@@ -388,70 +369,6 @@ document.addEventListener('DOMContentLoaded', function () {
   if (location.hash) setActive(location.hash);
 })();
 </script>
- -->
-
-        <script>
-    (function(){
-      const menu   = document.querySelector('.menu');
-      const burger = document.querySelector('.icon-nav');
-      const links  = [...document.querySelectorAll('.menu a[href^="#"]')];
-      if (!menu || !burger) return;
-    
-      function toggleMenu(e){
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        menu.classList.toggle('is-open');
-      }
-      // ['click','touchend','pointerup'].forEach(evt =>
-      //   burger.addEventListener(evt, toggleMenu, {passive:false})
-      // );
-        const tapEvt = window.PointerEvent ? 'pointerup' : 'click';
-        burger.addEventListener(tapEvt, toggleMenu, {passive:false});
-
-    
-      function setActive(hash){
-        links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === hash));
-      }
-      function onLinkTap(a){ 
-        return function(e){
-          e.preventDefault();
-          e.stopImmediatePropagation();
-          e.stopPropagation();
-          const id = a.getAttribute('href');
-          const target = document.querySelector(id);
-          if (target){
-            target.scrollIntoView({ behavior:'smooth', block:'start' });
-            history.replaceState(null, null, id);
-            setActive(id);
-          }
-          menu.classList.remove('is-open');
-        };
-      }
-      // links.forEach(a => ['click','touchend','pointerup']
-      //   .forEach(evt => a.addEventListener(evt, onLinkTap(a), {passive:false}))
-      // );
-        const linkEvt = window.PointerEvent ? 'pointerup' : 'click';
-        links.forEach(a => a.addEventListener(linkEvt, onLinkTap(a), {passive:false}));
-
-    
-      // Keep active highlight while scrolling
-      const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
-      const io = new IntersectionObserver(entries => {
-        const v = entries.filter(e => e.isIntersecting)
-                         .sort((a,b)=> b.intersectionRatio - a.intersectionRatio)[0];
-        if (v) setActive('#' + v.target.id);
-      }, { rootMargin:'0px 0px -60% 0px', threshold:[0.25,0.6] });
-      sections.forEach(s => io.observe(s));
-    
-      if (location.hash) setActive(location.hash);
-    })();
-    </script>
-
-
-
-
-
 
 </body>
 </html>
