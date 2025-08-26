@@ -19,7 +19,7 @@
     .menu a{display:block;padding:.6rem .9rem;border-radius:8px;color:#f2d5c7;text-decoration:none;transition:background-color .2s,color .2s,transform .06s}
     .menu a:hover,.menu a:focus-visible{color:#fff;background:transparent;transform:translateX(2px);outline:none}
     .menu a.active{color:var(--accent);font-weight:800;background:var(--active-bg)}
-    .menu a.active::fore{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:8px;vertical-align:middle}
+    .menu a.active::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:8px;vertical-align:middle}
     html{scroll-behavior:smooth}
     /* WHITE-ONLY HIGHLIGHT — put this LAST in your CSS */
 
@@ -85,27 +85,30 @@
       .menu{ position:relative; }
       .icon-nav{ cursor:pointer; position:relative; z-index:1002; -webkit-tap-highlight-color:transparent; }
     
-      /* turn existing UL into a slide-in drawer */
-        .navigation .menu ul{
-          position: fixed; top: var(--nav-h); right: 12px; bottom: 12px;
-          width: 78vw; max-width: 320px;
-          display: flex !important;            /* <-- force visible layout */
-          flex-direction: column; gap: 12px;
-          padding: 16px 18px;
-          background: rgba(0,0,0,.08);
-          border-radius: 12px;
-          backdrop-filter: blur(2px);
-          transform: translateX(110%);         /* hidden off-canvas */
-          opacity: 0;
-          pointer-events: none;
-          transition: transform .28s ease, opacity .2s ease;
-          z-index: 1001;
+      /* turn existing UL into a drop menu under the header */
+      .navigation .menu ul{
+        position: absolute;
+        top: calc(var(--nav-h) - 4px);
+        left: 16px;
+        right: 16px;
+        margin: 0;
+        padding: 8px 0;
+        list-style: none;
+        background: transparent;             /* same look as the screenshot */
+        display: block;                      /* keep flow for max-height animation */
+        max-height: 0;                       /* hidden by default */
+        overflow: hidden;
+        transform: translateY(-6px);
+        opacity: 0;
+        pointer-events: none;
+        transition: max-height .25s ease, transform .2s ease, opacity .2s ease;
+        z-index: 1001;
         }
-        .navigation .menu.is-open ul{
-          transform: translateX(0);
-          opacity: 1;
-          pointer-events: auto;
-          display: flex !important;            /* <-- ensure shown even if other CSS says none */
+      .navigation .menu.is-open ul{
+        max-height: 300px;                   /* enough to show all links */
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
         }
 
     
