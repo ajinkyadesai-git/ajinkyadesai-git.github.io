@@ -68,67 +68,65 @@
     <style>
     :root { --nav-h: 64px; }
     
-    /* --- Mobile drawer (no overlay) --- */
-  @media (max-width: 989px){
-  /* keep top bar fixed; name never moves */
-   .navigation{
-    position: fixed; top:0; left:0; right:0;
-    height: var(--nav-h);
-    display:flex; align-items:center; justify-content:space-between;
-    padding:10px 16px; z-index:1000;
-    overflow: visible !important;          /* <— so the dropdown can show */
-   }
-
-  /* content sits below bar; anchors not hidden */
-  .content{ margin-top: var(--nav-h); }
-  [id]{ scroll-margin-top: var(--nav-h); }
-
-  .menu{ position:relative; }
-  .icon-nav{ cursor:pointer; position:relative; z-index:1002; -webkit-tap-highlight-color:transparent; }
-
-  /* drop menu under the header */
-  .navigation .menu ul{
-    position: absolute;
-    top: calc(var(--nav-h) - 4px);
-    left: 16px;
-    right: 16px;
-    margin: 0;
-    padding: 8px 0;
-    list-style: none;
-    background: transparent;
-    display: block !important;       /* layout so we can animate height */
-    max-height: 0;                   /* hidden by default */
-    overflow: hidden;
-    transform: translateY(-6px);
-    opacity: 0;
-    pointer-events: none;
-    transition: max-height .25s ease, transform .2s ease, opacity .2s ease;
-    z-index: 1001;
-   }
-   .navigation .menu.is-open ul{
-    max-height: 320px;               /* enough to reveal links */
-    transform: translateY(0);
-    opacity: 1;
-    pointer-events: auto;
-    display: block !important;
-   }
-
-   .navigation .menu ul li{ list-style:none; }
-   .navigation .menu ul li a{ display:block; text-align:left; }
-}
-/* keep the rest of your styles (hover/active, scroll-behavior) as-is */
-
+    /* --- Mobile & tablet drop menu (no overlay) --- */
+    @media (max-width: 989px){
+      /* keep top bar fixed; name never moves */
+      .navigation{
+        position: fixed; top:0; left:0; right:0;
+        height: var(--nav-h);
+        display:flex; align-items:center; justify-content:space-between;
+        padding:10px 16px; z-index:1000;
+        overflow: visible !important; /* allow dropdown to overflow */
+      }
     
-    /* hide any overlay you may have added earlier */
-    .menu-overlay{ display:none !important; }
+      /* content sits below bar; anchors not hidden */
+      .content{ margin-top: var(--nav-h); }
+      [id]{ scroll-margin-top: var(--nav-h); }
     
-    /* white-only highlight */
-    .menu a:hover, .menu a:focus-visible{ color:#fff; background:transparent !important; transform:translateX(2px); outline:none; }
-    .menu a.active{ color:#fff; font-weight:800; background:transparent !important; }
-    .menu a.active::before{ content:none !important; }
+      .menu{ position:relative; }
+      .icon-nav{ cursor:pointer; position:relative; z-index:1002; -webkit-tap-highlight-color:transparent; }
     
-    html{ scroll-behavior: smooth; }
-    </style>
+      /* drop menu under the header */
+      .navigation .menu ul{
+        position: absolute;
+        top: calc(var(--nav-h) - 4px);
+        left: 16px;
+        right: 16px;
+        margin: 0;
+        padding: 8px 0;
+        list-style: none;
+        background: transparent;
+        display: block !important;    /* override base CSS "display:none" */
+        max-height: 0;                /* hidden by default */
+        overflow: hidden;
+        transform: translateY(-6px);
+        opacity: 0;
+        pointer-events: none;
+        transition: max-height .28s ease, transform .2s ease, opacity .2s ease;
+        z-index: 1001;
+      }
+      .navigation .menu.is-open ul{
+        /* when JS toggles .is-open we also set max-height inline for reliability */
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+        display: block !important;
+      }
+    
+      .navigation .menu ul li{ list-style:none; }
+      .navigation .menu ul li a{ display:block; text-align:left; }
+      }
+
+     /* white-only highlight */
+      .menu a:hover, .menu a:focus-visible{
+      color:#fff; background:transparent !important; transform:translateX(2px); outline:none;
+      }
+      .menu a.active{ color:#fff; font-weight:800; background:transparent !important; }
+      .menu a.active::before{ content:none !important; }
+
+       html{ scroll-behavior: smooth; }
+      </style>
+
 
 
        
@@ -321,26 +319,41 @@
 (function(){
   const menu   = document.querySelector('.menu');
   const burger = document.querySelector('.icon-nav');
+  const list   = menu ? menu.querySelector('ul') : null;
   const links  = [...document.querySelectorAll('.menu a[href^="#"]')];
-  if (!menu || !burger) return;
-
-  function toggleMenu(e){
-    e.preventDefault();
-    e.stopImmediatePropagation();
-    e.stopPropagation();
-    menu.classList.toggle('is-open');
-  }
-  // CHANGE: single 'click' listener
-  burger.addEventListener('click', toggleMenu, {passive:false});
+  if (!menu || !burger || !list) return;
 
   function setActive(hash){
     links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === hash));
   }
-  function onLinkTap(a){
-    return function(e){
+
+  function openMenu(e){
+    if (e){ e.preventDefault(); e.stopPropagation(); }
+    menu.classList.add('is-open');
+    // Set height inline so it shows even if other CSS says otherwise
+    list.style.maxHeight = list.scrollHeight + 'px';
+    list.style.opacity = '1';
+    list.style.pointerEvents = 'auto';
+  }
+  function closeMenu(e){
+    if (e){ e.preventDefault(); e.stopPropagation(); }
+    menu.classList.remove('is-open');
+    list.style.maxHeight = '0px';
+    list.style.opacity = '0';
+    list.style.pointerEvents = 'none';
+  }
+  function toggleMenu(e){
+    if (menu.classList.contains('is-open')) closeMenu(e);
+    else openMenu(e);
+  }
+
+  // Single, reliable event (avoids double-firing on mobile)
+  burger.addEventListener('click', toggleMenu, {passive:false});
+
+  // Smooth scroll + close drawer + set active
+  links.forEach(a => {
+    a.addEventListener('click', function(e){
       e.preventDefault();
-      e.stopImmediatePropagation();
-      e.stopPropagation();
       const id = a.getAttribute('href');
       const target = document.querySelector(id);
       if (target){
@@ -348,12 +361,11 @@
         history.replaceState(null, null, id);
         setActive(id);
       }
-      menu.classList.remove('is-open');
-    };
-  }
-  // CHANGE: single 'click' listener
-  links.forEach(a => a.addEventListener('click', onLinkTap(a), {passive:false}));
+      closeMenu();
+    }, {passive:false});
+  });
 
+  // Keep active highlight while scrolling
   const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
   const io = new IntersectionObserver(entries => {
     const v = entries.filter(e => e.isIntersecting)
@@ -365,6 +377,7 @@
   if (location.hash) setActive(location.hash);
 })();
 </script>
+
 
 </body>
 </html>
