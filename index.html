@@ -106,7 +106,7 @@
     z-index: 1001;
    }
    .navigation .menu.is-open ul{
-    max-height: 320px;               /* enough to reveal links */
+    max-height: 380px;               /* enough to reveal links */
     transform: translateY(0);
     opacity: 1;
     pointer-events: auto;
@@ -150,6 +150,7 @@
             <ul>
                 <li><a href="#about">About</a></li>
                 <li><a href="#experience">Experience</a></li>
+                <li><a href="#projects">Projects</a></li>
                 <li><a href="#education">Education</a></li>
                 <li><a href="#skills">Skills</a></li>
                 <li><a href="#interests">Interests</a></li>
@@ -175,7 +176,7 @@
                 </p>
             </div>
             <p>
-                Software engineering professional with experience in application development, API integrations, enterprise systems, and automation. I enjoy building technical solutions, solving complex problems, and working across teams to turn ideas into reliable, scalable products.
+                Software engineer who builds data pipelines, API integrations and LLM-powered tools. I work closely with the business teams who use them: gathering requirements, coordinating across teams and delivering reliable systems.
             </p>
             <div class="icons-connect">
                 <a href="https://www.linkedin.com/in/ajinkyadesai77/" target="_blank" rel="noopener" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
@@ -193,48 +194,75 @@
 
             <div class="section">
                 <div class="article">
-                    <h3>Product Analyst</h3>
-                    <h4>eWAKA — Sustainable Mobility</h4>
+                    <h3>Associate Consultant (Solutions Engineering)</h3>
+                    <h4>Connor Group</h4>
                     <p>
-                        Worked with large-scale operations datasets to analyze fleet utilization, rider behavior, and uptime performance. Built SQL-based analytics models and dashboards to support operational efficiency decisions and cross-functional reporting cadence.
+                        Built Python, Workato and Boomi integrations across NetSuite (ERP) and CRMs such as Salesforce and HubSpot, cutting manual processing by about 70%. Led an internal AI research initiative with NetSuite Analytics Warehouse connections to NetSuite and Snowflake. Coordinated validation, automation and data analytics teams on a large technology client's procure-to-pay process, with weekly metrics reporting to client leadership.
                     </p>
                 </div>
-                <p class="date">2025 – Present · Santa Clara, CA</p>
+                <p class="date">Sep 2025 – Oct 2026 · San Francisco Bay Area</p>
             </div>
 
             <div class="section">
                 <div class="article">
-                    <h3>Product Program Analyst Intern</h3>
-                    <h4>BoxPower</h4>
+                    <h3>Data Analyst Intern (Data Engineering)</h3>
+                    <h4>Miller Center for Global Impact · eWAKA project</h4>
                     <p>
-                        Developed ETL pipelines using SQL and Python to support revenue forecasting and pricing analysis, improving financial forecasting reliability. Built Tableau dashboards to analyze sales performance and customer acquisition metrics, supporting data-driven go-to-market decisions.
-
+                        Built data validation pipelines on GCP and BigQuery running 10+ automated data-quality and system-health checks daily, reducing operational errors by about 80%. Built SQL analytics and Looker dashboards on fleet utilization, rider behavior and uptime for the product team.
                     </p>
                 </div>
-                <p class="date">2024 · Santa Clara, CA</p>
+                <p class="date">Jul 2025 – Sep 2025 · Santa Clara, CA</p>
             </div>
-
-            <div class="section">
-            <div class="article">
-            <h3>Data Science Practicum</h3>
-            <h4>Palo Alto Networks — Financial Benchmarking</h4>
-            <p>
-               Built an automated BigQuery ETL pipeline to parse and structure 10-K/10-Q filings, enabling scalable financial benchmarking and bond yield trend analysis.
-            </p>
-            </div>
-            <p class="date">2024 · Santa Clara, CA</p>
-            </div>
-
 
             <div class="section">
                 <div class="article">
-                    <h3>Software Developer </h3>
+                    <h3>Technical Product Program Analyst Intern</h3>
+                    <h4>Miller Center for Global Impact · BoxPower project</h4>
+                    <p>
+                        Built SQL and Python ETL pipelines for revenue forecasting and pricing analysis, and Tableau dashboards on sales performance and customer acquisition for go-to-market decisions.
+                    </p>
+                </div>
+                <p class="date">Jul 2024 – Dec 2024 · Santa Clara, CA</p>
+            </div>
+
+            <div class="section">
+                <div class="article">
+                    <h3>Data Scientist (Practicum)</h3>
+                    <h4>Palo Alto Networks · Financial Benchmarking</h4>
+                    <p>
+                        Built an automated BigQuery ETL pipeline that parsed and structured 10-K and 10-Q filings, with KPI trees covering 12+ metrics and Tableau executive dashboards, reducing recurring benchmarking effort by about 80%.
+                    </p>
+                </div>
+                <p class="date">Jan 2024 – Jun 2024 · Santa Clara, CA</p>
+            </div>
+
+            <div class="section">
+                <div class="article">
+                    <h3>Technology Consultant L1 (Software Engineer)</h3>
                     <h4>Mastek (Evosys)</h4>
                     <p>
-                        Contributed to enterprise mobile product implementations across EMEA, supporting feature development, system integrations, reporting workflows, and user enablement.
+                        Developed features and REST API integrations for 3 enterprise applications serving EMEA markets using React Native, Java and Swift, supporting implementations, reporting workflows and user enablement.
                     </p>
                 </div>
-                <p class="date">2019 – 2021 · Ahmedabad, IN</p>
+                <p class="date">Apr 2019 – Oct 2021 · Ahmedabad, India</p>
+            </div>
+        </div>
+
+        <!-- -------------------------------- -->
+        <!--             Projects             -->
+        <!-- -------------------------------- -->
+        <div id="projects">
+            <h2>Projects</h2>
+
+            <div class="section">
+                <div class="article">
+                    <h3>Job Radar</h3>
+                    <h4>Open-source data platform and AI agent (in progress)</h4>
+                    <p>
+                        Tracks new job postings and employer hiring and salary data. Pipelines from public job APIs and Department of Labor filings into AWS S3 and Databricks (PySpark, Delta Lake), modeled in dbt, with a Claude-powered agent tested against a 30-question evaluation suite.
+                    </p>
+                </div>
+                <p class="date">Oct 2026 – Present</p>
             </div>
         </div>
 
@@ -247,8 +275,8 @@
             <div class="section">
                 <div class="article">
                     <h3>Santa Clara University</h3>
-                    <h4>M.S. Management Information Systems</h4>
-                    <p>Focus: AI, Product Analytics</p>
+                    <h4>M.S. Information Systems</h4>
+                    <p>Focus: AI and Product Analytics</p>
                 </div>
                 <p class="date">2025 · Santa Clara, CA</p>
             </div>
@@ -257,9 +285,8 @@
                 <div class="article">
                     <h3>MIT Academy of Engineering</h3>
                     <h4>B.E. Electronics and Telecommunication</h4>
-                    <p>Engineering and Applied Analytics.</p>
                 </div>
-                <p class="date">2017 · Pune, IN</p>
+                <p class="date">2017 · Pune, India</p>
             </div>
         </div>
 
@@ -279,19 +306,21 @@
                     <i class="fab fa-google" title="BigQuery / GCP"></i>
                 </div>
                 <p style="margin-top:.5rem;">
-                    SQL, Python • BigQuery • Looker, Power BI, Tableau • Jupyter, VS Code
+                    <strong>Languages and data:</strong> Python, SQL, Java • BigQuery, Databricks, PySpark, dbt, Snowflake<br />
+                    <strong>BI and tools:</strong> Looker, Tableau, Power BI • Jupyter, VS Code, GitHub, Jira<br />
+                    <strong>Integrations and systems:</strong> Workato, Boomi, REST APIs, Webhooks • NetSuite, Salesforce, HubSpot<br />
+                    <strong>AI:</strong> LLM APIs (Claude, Gemini, OpenAI, Azure AI) • Agentic Workflows
                 </p>
             </div>
 
             <div class="section">
                 <h3>Core Competencies</h3>
                 <ul>
+                    <li><i class="fas fa-check"></i> Data Pipelines &amp; ETL</li>
                     <li><i class="fas fa-check"></i> Workflow Automation &amp; API Integration</li>
-                    <li><i class="fas fa-check"></i> Enterprise System Integration</li>
-                    <li><i class="fas fa-check"></i> SQL-Based Data Modeling</li>
-                    <li><i class="fas fa-check"></i> Cloud Data Platforms (BigQuery, Azure)</li>
-                    <li><i class="fas fa-check"></i> KPI Framework Design & Executive Reporting</li>
-                    <li><i class="fas fa-check"></i> Program Governance & SLA Monitoring</li>
+                    <li><i class="fas fa-check"></i> Enterprise System Integration (ERP &amp; CRM)</li>
+                    <li><i class="fas fa-check"></i> SQL Data Modeling &amp; KPI Framework Design</li>
+                    <li><i class="fas fa-check"></i> Stakeholder Reporting &amp; Cross-Team Coordination</li>
                 </ul>
             </div>
         </div>
@@ -302,10 +331,10 @@
         <div id="interests">
             <h2>Interests</h2>
             <p>
-                Interested in software engineering, applied AI, and building practical technology that connects systems, data, and people.
+                Software engineering, data engineering and applied AI: building practical technology that connects systems, data and people.
             </p>
             <p>
-                Outside of work: I enjoy hiking, fitness, and exploring creative ideas that connect technology with business growth. Supports DEI and NetImpact.
+                Outside work I enjoy hiking, fitness and exploring ideas where technology meets business growth. Supporter of DEI and Net Impact.
             </p>
         </div>
 
@@ -315,10 +344,13 @@
         <div id="awards">
             <h2>Awards &amp; Certifications</h2>
             <ul>
+                <li><i class="fas fa-trophy text-warning"></i> Microsoft Azure AI Engineer Associate</li>
+                <li><i class="fas fa-trophy text-warning"></i> Google Project Management Certificate</li>
+                <li><i class="fas fa-trophy text-warning"></i> Google Data Analytics Professional Certificate</li>
                 <li><i class="fas fa-trophy text-warning"></i> Certified Scrum Product Owner (CSPO)</li>
-                <li><i class="fas fa-trophy text-warning"></i> Google Professional Data Analytics</li>
-                <li><i class="fas fa-trophy text-warning"></i> Stanford - Mastering Generative AI for Product Innovation</li>
-                <li><i class="fas fa-trophy text-warning"></i> AI Club — organized ML/LLM product demos & workshops</li>
+                <li><i class="fas fa-trophy text-warning"></i> Workato Automation Pro II</li>
+                <li><i class="fas fa-trophy text-warning"></i> Stanford, Mastering Generative AI for Product Innovation</li>
+                <li><i class="fas fa-trophy text-warning"></i> VP, SCU AI Club: organized ML and LLM product demos and workshops</li>
             </ul>
         </div>
 
